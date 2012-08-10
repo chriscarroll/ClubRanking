@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, ClubRankingActivity!</string>
+    <string name="app_name">Club Ranking</string>
+    <string name="aboveText">Above</string>
+    <string name="belowText">Below</string>
+    <string name="textGame">Start \n UEFA Club Ranking Battle!</string>
+    <string name="textSettings">Settings</string>
+    <string name="textDownloadRankings">Get Rankings</string>
+    <string name="textDownloadCrests">Get Crests</string>
+    <string name="textDownloadJerseys">Get Jerseys</string>
+    <string name="dialogJerseyTitle">Download Jerseys</string>
+
+</resources>

@@ -188,6 +188,7 @@ public class SettingsActivity extends Activity implements OnClickListener
 	/**
 	 * Download and save club crests from external website
 	 */
+	//TODO: Create .nomedia file
 	private void getClubCrests()
 	{
 		String clubId = "";

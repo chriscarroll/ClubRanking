@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,17 +25,16 @@ import android.widget.TextView;
  */
 public class RankingBattleActivity extends Activity implements OnClickListener
 {
-
 	private TextView battleQuestion;
 	private TextView progressText;
-	private Button aboveButton;
-	private Button belowButton;
+	private ImageButton teamOneButton;
+	private ImageButton teamTwoButton;
 	private ProgressBar progressBar;
 	private Integer currentClubRank;
-	private Integer favClubRanking;
+	private Integer favClubRank;
 	private Integer progress = 0;
-	private String clubName = null;
-	private String clubId = null;
+	private String currentClubName = null;
+	private String currentClubId = null;
 	private int numberOfTeams = 0;
 	private ImageView imView1;
 	private ImageView imView2;
@@ -44,42 +43,63 @@ public class RankingBattleActivity extends Activity implements OnClickListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.battle);
 
 		findViews();
 		setUpListeners();
-		clubMap = Util.getClubMap(getApplicationContext());
-		// reset();
+		resetGame();
 		getRandomFavClubRanking();
 		setQuestion();
 		progressBar.setMax(206);
 		progressText.setText("0 correct");
 	}
 
-	// private boolean checkExternalMedia(){
-	// boolean mExternalStorageAvailable = false;
-	// boolean mExternalStorageWriteable = false;
-	// String state = Environment.getExternalStorageState();
-	// if (Environment.MEDIA_MOUNTED.equals(state)) {
-	// // We can read and write the media
-	// mExternalStorageAvailable = mExternalStorageWriteable = true;
-	// } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-	// // We can only read the media
-	// mExternalStorageAvailable = true;
-	// mExternalStorageWriteable = false;
-	// } else {
-	// // Something else is wrong. It may be one of many other states,
-	// but all we need
-	// // to know is we can neither read nor write
-	// Log.i(TAG,"State="+state+" Not good");
-	// mExternalStorageAvailable = mExternalStorageWriteable = false;
-	// }
-	// Log.i(TAG,"Available="+mExternalStorageAvailable+"
-	// Writeable="+mExternalStorageWriteable+" State"+state);
-	// return (mExternalStorageAvailable && mExternalStorageWriteable);
-	// }
+	@Override
+	public void onClick(View v)
+	{
+		switch (v.getId())
+		{
+			case R.id.teamOne:
+				if (currentClubRank < favClubRank)
+				{
+					progressBar.setProgress(progress++);
+					progressText.setText(progress + " correct. " + currentClubName + " was ranked #" + currentClubRank);
+					setQuestion();
+
+				}
+				else
+				{
+					progress = 0;
+					progressBar.setProgress(progress);
+					resetGame();
+					setQuestion();
+					progressText.setText(progress + " correct ");
+					getRandomFavClubRanking();
+
+				}
+				break;
+			case R.id.teamTwo:
+				if (currentClubRank > favClubRank)
+				{
+					progressBar.setProgress(progress++);
+					progressText.setText(progress + " correct. " + currentClubName + " was ranked #" + currentClubRank);
+					setQuestion();
+
+				}
+				else
+				{
+					progress = 0;
+					progressBar.setProgress(progress);
+					resetGame();
+					setQuestion();
+					progressText.setText(progress + " correct ");
+					getRandomFavClubRanking();
+				}
+				break;
+		}
+	}
+
 	/**
 	 * Finds and assigns all views in main.xml
 	 */
@@ -87,8 +107,8 @@ public class RankingBattleActivity extends Activity implements OnClickListener
 	{
 		battleQuestion = (TextView) findViewById(R.id.battlequestion);
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
-		aboveButton = (Button) findViewById(R.id.above);
-		belowButton = (Button) findViewById(R.id.below);
+		teamOneButton = (ImageButton) findViewById(R.id.teamOne);
+		teamTwoButton = (ImageButton) findViewById(R.id.teamTwo);
 		progressText = (TextView) findViewById(R.id.progress);
 		imView1 = (ImageView) findViewById(R.id.imageView1);
 		imView2 = (ImageView) findViewById(R.id.imageView2);
@@ -99,65 +119,20 @@ public class RankingBattleActivity extends Activity implements OnClickListener
 	 */
 	private void setUpListeners()
 	{
-		aboveButton.setOnClickListener(this);
-		belowButton.setOnClickListener(this);
+		teamOneButton.setOnClickListener(this);
+		teamTwoButton.setOnClickListener(this);
 	}
 
-	@Override
-	public void onClick(View v)
-	{
-		switch (v.getId())
-		{
-			case R.id.above:
-				if (currentClubRank < favClubRanking)
-				{
-					progressBar.setProgress(progress++);
-					progressText.setText(progress + " correct, " + clubName + " was ranked:" + currentClubRank);
-					setQuestion();
-
-				}
-				else
-				{
-					progress = 0;
-					progressBar.setProgress(progress);
-					clubMap = Util.getClubMap(getApplicationContext());
-					setQuestion();
-					progressText.setText(progress + " correct ");
-					getRandomFavClubRanking();
-
-				}
-				break;
-			case R.id.below:
-				if (currentClubRank > favClubRanking)
-				{
-					progressBar.setProgress(progress++);
-					progressText.setText(progress + " correct, " + clubName + " was ranked:" + currentClubRank);
-					setQuestion();
-
-				}
-				else
-				{
-					progress = 0;
-					progressBar.setProgress(progress);
-					clubMap = Util.getClubMap(getApplicationContext());
-					setQuestion();
-					progressText.setText(progress + " correct ");
-					getRandomFavClubRanking();
-				}
-				break;
-		}
-
-	}
-
-	
 	private void getRandomFavClubRanking()
 	{
+		numberOfTeams = clubMap.size();
 		Random randomGenerator = new Random();
-		favClubRanking = randomGenerator.nextInt(numberOfTeams);
+		favClubRank = randomGenerator.nextInt(numberOfTeams);
 	}
 
-	private void reset()
+	private void resetGame()
 	{
+		clubMap = Util.getClubMap(getApplicationContext());
 		// Resources res = getResources();
 		// String[] countryRankings =
 		// res.getStringArray(R.array.rankings_array);
@@ -171,29 +146,32 @@ public class RankingBattleActivity extends Activity implements OnClickListener
 		String question;
 		Random randomGenerator = new Random();
 
-		clubName = null;
-		clubId = null;
+		currentClubName = null;
+		currentClubId = null;
 
 		if (clubMap.size() > 1)
 		{
-			while (clubName == null || currentClubRank == favClubRanking)
+			while (currentClubName == null || currentClubRank == favClubRank)
 			{
 				currentClubRank = randomGenerator.nextInt(numberOfTeams);
 				String[] myClubDetails = clubMap.get(currentClubRank);
-				clubName = myClubDetails[0];
-				clubId = myClubDetails[1];
+				currentClubName = myClubDetails[0];
+				currentClubId = myClubDetails[1];
 			}
 			// remove country
 			clubMap.remove(currentClubRank);
 
 			File dir = Environment.getExternalStorageDirectory();
 
-			Bitmap image1 = BitmapFactory.decodeFile(dir + ClubRankingConsts.CREST_SAVE_LOCATION + clubId + ClubRankingConsts.CREST_IMAGE_EXT);
-			Bitmap image2 = BitmapFactory.decodeFile(dir + "/uefa.images/temp/" + clubMap.get(favClubRanking)[1] + ClubRankingConsts.CREST_IMAGE_EXT);
+			Bitmap image1 = BitmapFactory.decodeFile(dir + ClubRankingConsts.CREST_SAVE_LOCATION + currentClubId + ClubRankingConsts.CREST_IMAGE_EXT);
+			Bitmap image2 = BitmapFactory.decodeFile(dir + ClubRankingConsts.CREST_SAVE_LOCATION + clubMap.get(favClubRank)[1] + ClubRankingConsts.CREST_IMAGE_EXT);
 
 			imView1.setImageBitmap(image1);
 			imView2.setImageBitmap(image2);
-			question = "\nIs " + clubName + " ranked higher than " + clubMap.get(favClubRanking)[0] + " ?";
+			
+			teamOneButton.setImageBitmap(image1);
+			teamTwoButton.setImageBitmap(image2);
+			question = "\nWhich is the highest ranked club?";
 		}
 		else
 		{
@@ -201,8 +179,7 @@ public class RankingBattleActivity extends Activity implements OnClickListener
 		}
 
 		battleQuestion.setText(question);
-		aboveButton.setText("Above " + clubMap.get(favClubRanking)[0]);
-		belowButton.setText("Below " + clubMap.get(favClubRanking)[0]);
+
 	}
 
 }

@@ -14,19 +14,26 @@
         android:textAppearance="?android:attr/textAppearanceLarge" >
     </TextView>
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1.00"
-        android:src="@drawable/icon" />
+        android:layout_weight="1.00" >
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.00"
-        android:src="@drawable/icon" />
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.00"
+            android:src="@drawable/icon" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.00"
+            android:src="@drawable/icon" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/progress"
@@ -42,19 +49,17 @@
         android:layout_height="wrap_content" >
     </ProgressBar>
 
-    <Button
-        android:id="@+id/above"
+    <ImageButton
+        android:id="@+id/teamOne"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="@string/aboveText" >
-    </Button>
+        android:layout_gravity="bottom" >
+    </ImageButton>
 
-    <Button
-        android:id="@+id/below"
+    <ImageButton
+        android:id="@+id/teamTwo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/belowText" >
-    </Button>
+        android:layout_height="wrap_content" >
+    </ImageButton>
 
 </LinearLayout>

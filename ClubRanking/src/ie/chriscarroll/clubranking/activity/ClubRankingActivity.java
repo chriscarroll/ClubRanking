@@ -15,6 +15,8 @@ public class ClubRankingActivity extends Activity implements OnClickListener
 {
 	private View buttonGame;
 	private View buttonSettings;
+	//TODO: Give credit to CFF and BL
+	//private View buttonCredits;
 
 	/**
 	 * Called when the activity is first created.

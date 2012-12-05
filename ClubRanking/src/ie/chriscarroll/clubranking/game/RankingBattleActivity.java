@@ -5,7 +5,6 @@ import ie.chriscarroll.clubranking.util.ClubRankingConsts;
 import ie.chriscarroll.clubranking.util.Util;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Random;
 
 import android.app.Activity;
@@ -13,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -38,7 +38,7 @@ public class RankingBattleActivity extends Activity implements OnClickListener
 	private int numberOfTeams = 0;
 	private ImageView imView1;
 	private ImageView imView2;
-	private HashMap<Integer, String[]> clubMap = new HashMap<Integer, String[]>();
+	private SparseArray<String[]> clubMap = new SparseArray<String[]>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +51,7 @@ public class RankingBattleActivity extends Activity implements OnClickListener
 		resetGame();
 		getRandomFavClubRanking();
 		setQuestion();
+		//TODO: set max programatically
 		progressBar.setMax(206);
 		progressText.setText("0 correct");
 	}

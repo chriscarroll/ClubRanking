@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseArray;
 
 /**
  * @author Chris Carroll chris.carroll1@gmail.com
@@ -21,15 +22,15 @@ public class Util
 	 * @param context
 	 * @return
 	 */
-	public static HashMap<Integer, String[]> getClubMap(Context context)
+	public static SparseArray<String[]> getClubMap(Context context)
 	{
-		HashMap<Integer, String[]> clubMap = new HashMap<Integer, String[]>();
+		SparseArray<String[]> clubMap = new SparseArray<String[]>();
 		try
 		{
-			File file = context.getFileStreamPath(ClubRankingConsts.RANKINGS_FILENAME);
+			File file = context.getFileStreamPath(ClubRankingConsts.CLUB_RANKINGS_FILENAME);
 			if(file.exists())
 			{
-				InputStream is = new BufferedInputStream(context.getApplicationContext().openFileInput(ClubRankingConsts.RANKINGS_FILENAME));
+				InputStream is = new BufferedInputStream(context.getApplicationContext().openFileInput(ClubRankingConsts.CLUB_RANKINGS_FILENAME));
 
 				byte[] buffer = new byte[is.available()];
 				while (is.read(buffer) != -1);

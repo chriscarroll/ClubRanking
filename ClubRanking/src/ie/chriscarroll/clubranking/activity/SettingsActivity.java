@@ -30,6 +30,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
@@ -46,7 +47,7 @@ public class SettingsActivity extends Activity implements OnClickListener
 
 	private ProgressBar progressBar;
 
-	private HashMap<Integer, String[]> clubMap = new HashMap<Integer, String[]>();
+	private SparseArray<String[]> clubMap = new SparseArray<String[]>();
 
 	private static final int STATUS_DIALOG_ID = 0;
 
@@ -148,18 +149,20 @@ public class SettingsActivity extends Activity implements OnClickListener
 	{
 		try
 		{
-			URL url = new URL(ClubRankingConsts.RANKINGS_HTTP_URL);
+			//TODO: Error handling if url is unreachable, don't allow app to crash
+			//for starters, check that an network connection exists
+			URL url = new URL(ClubRankingConsts.CLUB_RANKINGS_HTTP_URL);
 			URLConnection conn = url.openConnection();
 			// Get the response
 			BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = rd.readLine();
 			line = rd.readLine();
 
-			FileOutputStream fos = openFileOutput(ClubRankingConsts.RANKINGS_FILENAME, Context.MODE_PRIVATE);
+			FileOutputStream fos = openFileOutput(ClubRankingConsts.CLUB_RANKINGS_FILENAME, Context.MODE_PRIVATE);
 			fos.write(line.getBytes());
 			fos.close();
 
-			InputStream input = new BufferedInputStream(openFileInput(ClubRankingConsts.RANKINGS_FILENAME));
+			InputStream input = new BufferedInputStream(openFileInput(ClubRankingConsts.CLUB_RANKINGS_FILENAME));
 			byte[] buffer = new byte[8192];
 
 			try

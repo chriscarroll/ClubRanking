@@ -5,7 +5,7 @@ package ie.chriscarroll.clubranking.util;
  */
 public class ClubRankingConsts
 {
-	public static final String RANKINGS_HTTP_URL = "http://www.checkargos.com/Uefa/clubRankingsJson.php";
+	public static final String RANKINGS_HTTP_URL = "http://checkargos.com/Rankings/Rankings.php?rankingType=club";
 	public static final String RANKINGS_FILENAME = "uefa_rankings.txt";
 
 	public static final String CREST_HTTP_URL = "http://img.uefa.com/imgml/TP/teams/logos/70x70/";

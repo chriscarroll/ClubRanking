@@ -22,13 +22,14 @@ public class Util
 	 * @param context
 	 * @return
 	 */
+	//TODO: Allow filtering based on multiple countryCode
 	public static SparseArray<String[]> getClubMap(Context context)
 	{
 		SparseArray<String[]> clubMap = new SparseArray<String[]>();
 		try
 		{
 			File file = context.getFileStreamPath(ClubRankingConsts.CLUB_RANKINGS_FILENAME);
-			if(file.exists())
+			if(file.exists())//TODO: this isn't working correctly - file didn't exist but yet still came in here. Rename file in raw/uefa_club_rankings.txt to test out
 			{
 				InputStream is = new BufferedInputStream(context.getApplicationContext().openFileInput(ClubRankingConsts.CLUB_RANKINGS_FILENAME));
 
@@ -40,6 +41,7 @@ public class Util
 				for (int i = 0; i < entries.length(); i++)
 				{
 					JSONObject post = entries.getJSONObject(i);
+					//push countryCode and rank also?
 					clubMap.put(i, new String[] { post.getString("clubName"), post.getString("clubId") });
 				}
 				return clubMap;
